@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black; /* Start dark */
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+}
+
+/* LEFT SIDE */
+.left {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.lamp {
+  width: 300px;
+  transition: filter 0.5s ease;
+}
+
+/* Invisible drag area over pull string */
+.drag-area {
+  position: absolute;
+  width: 40px;
+  height: 230px;
+  left: 50%;
+  top: 230px;
+  transform: translateX(-50%);
+  cursor: grab;
+}
+
+/* RIGHT SIDE */
+.right {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  width: 340px;
+  padding: 25px;
+  background: rgba(142, 172, 221, 0.35);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  display: none;
+  animation: fadeIn 0.6s forwards;
+}
+
+.login-box h2 {
+  margin-bottom: 12px;
+  color: #222;
+}
+
+
+
+/* INPUT WITH ICON */
+.input-box {
+  position: relative;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px 40px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.8);
+  font-size: 15px;
+}
+
+.input-box .icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #1c4b93;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Reveal animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(25px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Background after wake */
+.gradient-bg {
+  background: linear-gradient(120deg, #f09ef0, #f1a3e2, #86c3f9 , #59c4ce);
+  transition: background 1.2s ease;
+}
+#glitterCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* glitter won't block dragging */
+  z-index: 0; /* stays at very back */
+}
+
+/* Glitter particle style */
+.glitter {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  box-shadow: 0 0 8px 2px white;
+  pointer-events: none;
+  animation: glitter-fall 2s linear forwards;
+}
+
+@keyframes glitter-fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+
+

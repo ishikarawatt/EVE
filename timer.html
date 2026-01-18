@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Countdown</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  background:linear-gradient(135deg, #130864, #306cc0, #883ed2);
+  background-size:400% 400%;
+  animation:bgMove 8s ease infinite;
+  overflow:hidden;
+  color:#d9d0f6;
+  position:relative;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* BUTTERFLIES */
+#butterflies {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.butterfly {
+  position:absolute;
+  width:65px;
+  opacity:0.9;
+  will-change: transform;
+}
+
+/* Title */
+h1{
+  font-size:40px;
+  margin-bottom:35px;
+  text-shadow:0 0 10px rgba(4, 13, 87, 0.8);
+  z-index:2;
+  position:relative;
+}
+
+/* Timer circles layout */
+.timer{
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
+  justify-content:center;
+  z-index:2;
+  position:relative;
+}
+
+.timeCircle{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:5px solid rgba(144, 151, 249, 0.8);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(8px);
+  box-shadow:0 4px 20px rgba(255,255,255,0.3);
+  color:#0b0248;
+}
+
+.timeCircle .num{
+  font-size:28px;
+  font-weight:600;
+}
+
+.timeCircle .label{
+  font-size:14px;
+  margin-top:3px;
+  opacity:0.9;
+}#playBtn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(255,255,255,0.3), 0 0 25px rgba(144, 151, 249, 0.4);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s ease;
+  animation: floaty 2s ease-in-out infinite;
+}
+
+#playBtn:hover {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.3);
+  box-shadow: 0 0 18px rgba(255,255,255,0.6), 0 0 28px rgba(144, 151, 249, 0.6);
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+#playBtn:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+
+
+</style>
+</head>
+
+<body>
+  <button id="playBtn">💫 Play Music</button>
+
+
+
+<div id="butterflies"></div>
+
+<h1>Someone's Special Day... 🌼</h1>
+
+<div class="timer">
+  <div class="timeCircle"><div class="num" id="days">--</div><div class="label">Days</div></div>
+  <div class="timeCircle"><div class="num" id="hours">--</div><div class="label">Hours</div></div>
+  <div class="timeCircle"><div class="num" id="minutes">--</div><div class="label">Minutes</div></div>
+  <div class="timeCircle"><div class="num" id="seconds">--</div><div class="label">Seconds</div></div>
+</div>
+
+<script>
+// Set target date
+const targetDate = new Date("February 6, 2026 00:00:00").getTime();
+
+function updateTimer(){
+  const now = new Date().getTime();
+  const diff = targetDate - now;
+
+  if(diff <= 0){
+    window.location.href = "birthday.html";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((diff % (1000*60)) / 1000);
+
+  document.getElementById("days").textContent = days;
+  document.getElementById("hours").textContent = hours.toString().padStart(2,'0');
+  document.getElementById("minutes").textContent = minutes.toString().padStart(2,'0');
+  document.getElementById("seconds").textContent = seconds.toString().padStart(2,'0');
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+
+// BUTTERFLIES BACKGROUND JS
+const butterflyContainer = document.getElementById("butterflies");
+const butterflyImages = [
+  "butterfly1.png",
+  "butterfly2.png",
+  "butterfly3.png"
+];
+
+// bezier curve helper
+function bezier(p0, p1, p2, t) {
+  return (1-t)*(1-t)*p0 + 2*(1-t)*t*p1 + t*t*p2;
+}
+
+function spawnButterfly() {
+  const img = document.createElement("img");
+  img.src = butterflyImages[Math.floor(Math.random() * butterflyImages.length)];
+  img.className = "butterfly";
+
+  const startX = Math.random() * window.innerWidth;
+  const startY = window.innerHeight + 50;
+  const cpX = startX + (Math.random() * 300 - 150);
+  const cpY = window.innerHeight/2 + (Math.random()*200 - 100);
+  const endX = startX + (Math.random() * 400 - 200);
+  const endY = -120;
+
+  const duration = Math.random() * 5000 + 6000; // 6–11s
+  const scale = Math.random() * 0.5 + 0.8;
+  const rotateDir = Math.random() < 0.5 ? -1 : 1;
+
+  img.style.transform = `scale(${scale})`;
+  butterflyContainer.appendChild(img);
+
+  const startTime = performance.now();
+
+  function animate(time) {
+    const t = (time - startTime) / duration;
+    if (t > 1) {
+      img.remove();
+      return;
+    }
+
+    const x = bezier(startX, cpX, endX, t);
+    const y = bezier(startY, cpY, endY, t);
+    const rotation = Math.sin(t * Math.PI * 3) * 15 * rotateDir;
+
+    img.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+
+setInterval(spawnButterfly, 900); // medium density
+// MUSIC
+const audio = new Audio("Until_I_Found_You.mp3");
+audio.loop = true; // keeps playing
+
+document.getElementById("playBtn").addEventListener("click", () => {
+  audio.play();
+  document.getElementById("playBtn").style.display = "none";
+});
+
+</script>
+
+</body>
+</html>
+

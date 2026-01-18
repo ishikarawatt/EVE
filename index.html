@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Lamp</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="glitterCanvas"></canvas>
+
+<div class="container">
+
+  <!-- LEFT SIDE (Lamp) -->
+  <div class="left">
+    <img src="lamp_sleep.png" id="lamp" class="lamp">
+
+    <!-- Invisible drag zone over string area -->
+    <div id="dragArea" class="drag-area"></div>
+  </div>
+
+  <!-- RIGHT SIDE (Login) -->
+  <div class="right">
+    <
+    <div id="loginBox" class="login-box">
+      <h2>Welcome LOVE ❤️ </h2>
+
+      <div class="input-box">
+        <span class="icon">👤</span>
+        <input type="text" id="username" placeholder="Username">
+      </div>
+
+      <div class="input-box">
+        <span class="icon">🔒</span>
+        <input type="password" id="password" placeholder="Password">
+      </div>
+
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
