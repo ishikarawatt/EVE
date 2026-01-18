@@ -51,8 +51,7 @@ function login() {
   }
 
   if (user === correctUser && pass === correctPass) {
-    alert("Login successful!");
-    // later we will redirect to timer page here
+      window.location.href = "timer.html";
   } else {
     alert("Baby try again !");
   }
@@ -108,4 +107,5 @@ function animateGlitter() {
 
 createParticles();
 animateGlitter();
+
 
